@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Schedule a Meeting</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .container { max-width: 600px; }
+  </style>
+</head>
+<body>
+  <div class="container my-5">
+    <h1 class="mb-4">Schedule a Meeting</h1>
+    <form method="post">
+      <!-- Meeting Type -->
+      <div class="form-group">
+        <label for="meeting_type">Meeting Type</label>
+        <select class="form-control" id="meeting_type" name="meeting_type">
+          <option value="One-to-One Meeting">One-to-One Meeting</option>
+          <option value="All-Hands Meeting">All-Hands Meeting</option>
+          <option value="Management Meeting">Management Meeting</option>
+          <option value="BIM Review">BIM Review</option>
+          <option value="Client Update">Client Update</option>
+          <option value="Client Review">Client Review</option>
+          <option value="Lagan Brief">Lagan Brief</option>
+        </select>
+      </div>
+      <!-- Meeting Day (for May 2025) -->
+      <div class="form-group">
+        <label for="meeting_day">Meeting Day (May 2025)</label>
+        <select class="form-control" id="meeting_day" name="meeting_day">
+          {% for day in range(1, 32) %}
+            <option value="{{ day }}">{{ day }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <!-- Meeting Time -->
+      <div class="form-group">
+        <label for="meeting_time">Meeting Time</label>
+        <input type="time" class="form-control" id="meeting_time" name="meeting_time" required>
+      </div>
+      <!-- Person's Name (only for One-to-One Meeting) -->
+      <div class="form-group" id="personNameGroup" style="display: none;">
+        <label for="person_name">Person's Name</label>
+        <input type="text" class="form-control" id="person_name" name="person_name" placeholder="Enter person's name">
+      </div>
+      <button type="submit" class="btn btn-primary">Schedule Meeting</button>
+    </form>
+  </div>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script>
+    $(document).ready(function(){
+      $('#meeting_type').on('change', function(){
+        if ($(this).val() === 'One-to-One Meeting') {
+          $('#personNameGroup').show();
+        } else {
+          $('#personNameGroup').hide();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

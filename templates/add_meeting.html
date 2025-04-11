@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Meeting Request</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .container { max-width: 800px; }
+  </style>
+</head>
+<body>
+  <div class="container my-5">
+    <h1 class="mb-4">Add Meeting Request</h1>
+    <form method="POST">
+      <div class="form-group">
+        <label for="meeting_type">Meeting Type</label>
+        <select class="form-control" id="meeting_type" name="meeting_type">
+          <option value="">select meeting type</option>
+          <option value="One-to-One Meeting">One-to-One Meeting</option>
+          <option value="All-Hands Meeting">All-Hands Meeting</option>
+          <option value="Management Meeting">Management Meeting</option>
+          <option value="BIM Review">BIM Review</option>
+          <option value="Client Update">Client Update</option>
+          <option value="Client Review">Client Review</option>
+          <option value="Lagan Brief">Lagan Brief</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="time_slot">Time Slot</label><br>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="time_slot" id="morning" value="Morning" checked>
+          <label class="form-check-label" for="morning">Morning</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="time_slot" id="afternoon" value="Afternoon">
+          <label class="form-check-label" for="afternoon">Afternoon</label>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="recurrence">Recurrence Pattern</label>
+        <select class="form-control" id="recurrence" name="recurrence">
+          <option value="Weekly">Weekly</option>
+          <option value="Fortnightly">Fortnightly</option>
+          <option value="Every Third Week">Every Third Week</option>
+          <option value="Monthly">Monthly</option>
+        </select>
+      </div>
+      
+      <!-- Preferred Day field -->
+      <div class="form-group">
+        <label for="preferred_day">Preferred Day (optional)</label>
+        <select class="form-control" id="preferred_day" name="preferred_day">
+          <option value="">No Preference</option>
+          <option value="Monday">Monday</option>
+          <option value="Tuesday">Tuesday</option>
+          <option value="Wednesday">Wednesday</option>
+          <option value="Thursday">Thursday</option>
+          <option value="Friday">Friday</option>
+        </select>
+      </div>
+      
+      <!-- Only show Person's Name field for One-to-One Meeting -->
+      <div class="form-group" id="personNameGroup" style="display: none;">
+        <label for="person_name">Person's Name (for One-to-One Meeting)</label>
+        <input type="text" class="form-control" id="person_name" name="person_name" placeholder="Enter person's name">
+      </div>
+      
+      <button type="submit" class="btn btn-primary">Add Meeting</button>
+    </form>
+    
+    {% if meetings and meetings|length > 0 %}
+      <hr>
+      <h2>Current Meeting Requests</h2>
+      <ul class="list-group">
+        {% for meeting in meetings %}
+          <li class="list-group-item">
+            {{ meeting.meeting_type }} - {{ meeting.time_slot }} - Recurs: {{ meeting.recurrence }}
+            {% if meeting.preferred_day %}
+              (Preferred: {{ meeting.preferred_day }})
+            {% endif %}
+            {% if meeting.meeting_type == "One-to-One Meeting" and meeting.person_name %}
+              (with {{ meeting.person_name }})
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+      <div class="mt-4">
+        <a href="{{ url_for('calendar_view') }}" class="btn btn-success">Generate Calendar</a>
+        <a href="{{ url_for('clear_meetings') }}" class="btn btn-secondary">Clear Meetings</a>
+      </div>
+    {% endif %}
+  </div>
+  
+  <!-- jQuery to toggle the person's name field -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script>
+    $(document).ready(function(){
+      $('#meeting_type').on('change', function(){
+        if ($(this).val() === 'One-to-One Meeting') {
+          $('#personNameGroup').show();
+        } else {
+          $('#personNameGroup').hide();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

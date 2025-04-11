@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Calendar Result</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container my-5">
+    <h1 class="mb-4">Your Optimized Monthly Project Calendar</h1>
+    <p>The calendar below shows your meeting schedule over a generic 31‑day month. Meetings are scheduled only on weekdays (Mon–Fri), with Fridays avoided if possible. Each meeting’s colored bar spans the full width of its day cell, starts only at the top- or half‑hour, and has a fixed height. The meeting label shows the meeting start time.</p>
+    <img src="data:image/png;base64,{{ image_base64 }}" alt="Calendar" class="img-fluid">
+    <div class="mt-4">
+      <a href="{{ url_for('add_meeting') }}" class="btn btn-secondary">Back to Meeting Requests</a>
+    </div>
+  </div>
+</body>
+</html>
